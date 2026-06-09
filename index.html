@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cryptography Infrastructure Forum | Marvell Technology</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #FFFFFF;
+    color: #212322;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .page { max-width: 800px; margin: 0 auto; padding: 0 32px 80px; }
+
+  .top-bar {
+    height: 5px;
+    background: #00B5E2;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    margin: 0 -32px;
+  }
+
+  .hero {
+    padding: 64px 0 52px;
+    border-bottom: 1px solid #D9D9D6;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #00B5E2;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 2px;
+    background: #00B5E2;
+  }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #212322;
+    margin-bottom: 20px;
+    max-width: 620px;
+  }
+  .hero h1 span { color: #00B5E2; }
+  .hero-sub {
+    font-size: 16px;
+    color: #63666A;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .invite-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #F0FAFE;
+    border: 1px solid #00B5E2;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #00B5E2;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .invite-badge .dot {
+    width: 6px; height: 6px;
+    background: #00B5E2;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .section {
+    padding: 52px 0;
+    border-bottom: 1px solid #D9D9D6;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #00B5E2;
+    margin-bottom: 16px;
+  }
+  .section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #212322;
+    margin-bottom: 16px;
+    max-width: 580px;
+    line-height: 1.3;
+  }
+  .section p {
+    color: #63666A;
+    max-width: 600px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  .section p:last-of-type { margin-bottom: 0; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #D9D9D6;
+    border: 1px solid #D9D9D6;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 36px;
+  }
+  .stat {
+    background: #FFFFFF;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 26px;
+    font-weight: 700;
+    color: #00B5E2;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: #63666A;
+    line-height: 1.4;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .card {
+    background: #F5F5F4;
+    border-left: 3px solid #00B5E2;
+    border-radius: 0 4px 4px 0;
+    padding: 20px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #212322;
+    margin-bottom: 8px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: #63666A;
+    line-height: 1.55;
+  }
+
+  .not-box {
+    background: #F5F5F4;
+    border: 1px solid #D9D9D6;
+    border-radius: 4px;
+    padding: 28px;
+    margin-top: 28px;
+  }
+  .not-box h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #212322;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .not-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .not-list li {
+    font-size: 13px;
+    color: #63666A;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .not-list li .x { color: #E0004D; font-weight: 700; flex-shrink: 0; }
+  .not-list li .ch { color: #00816D; font-weight: 700; flex-shrink: 0; }
+
+  .agenda-items {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .agenda-item {
+    background: #FFFFFF;
+    border: 1px solid #D9D9D6;
+    border-left: 3px solid #00C7B1;
+    border-radius: 0 4px 4px 0;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .agenda-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00B5E2;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    margin-top: 2px;
+    min-width: 20px;
+  }
+  .agenda-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #212322;
+    margin-bottom: 4px;
+  }
+  .agenda-desc {
+    font-size: 13px;
+    color: #63666A;
+    line-height: 1.5;
+  }
+  .agenda-note {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #63666A;
+    font-style: italic;
+    padding: 12px 16px;
+    background: #F5F5F4;
+    border-radius: 4px;
+    border-left: 3px solid #D9D9D6;
+  }
+
+  .attend-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .pill {
+    background: #F0FAFE;
+    border: 1px solid #00B5E2;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: #212322;
+    font-weight: 700;
+  }
+
+  .cta-section { padding: 52px 0 0; }
+  .cta-box {
+    background: #212322;
+    border-radius: 4px;
+    padding: 40px;
+  }
+  .cta-box h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+  }
+  .cta-box p {
+    color: #C8C9C7;
+    margin-bottom: 28px;
+    max-width: 480px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .cta-qs {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cta-q {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .cta-q-num {
+    background: #00B5E2;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .cta-q-text {
+    font-size: 14px;
+    color: #C8C9C7;
+    line-height: 1.5;
+  }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #00B5E2;
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 13px 24px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .cta-button:hover { background: #0099C4; }
+  .cta-fine {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #63666A;
+  }
+
+  .footer {
+    margin-top: 52px;
+    padding-top: 20px;
+    border-top: 1px solid #D9D9D6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-brand {
+    font-size: 12px;
+    font-weight: 700;
+    color: #63666A;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .footer-note {
+    font-size: 11px;
+    color: #C8C9C7;
+  }
+
+  @media (max-width: 560px) {
+    .hero h1 { font-size: 28px; }
+    .stats { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .cta-box { padding: 24px; }
+    .footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow">Marvell Technology · Security Division</div>
+    <h1>The silicon behind every major cloud's <span>cryptographic infrastructure</span></h1>
+    <p class="hero-sub">We are convening a small group of senior cryptography practitioners from leading financial institutions to help shape how the industry approaches HSM adoption, key lifecycle management, and cloud-native cryptography over the next decade.</p>
+    <div class="invite-badge">
+      <div class="dot"></div>
+      Invitation only · Q3 2026 · Limited seats
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Who we are</div>
+    <h2>You have been using our silicon for years. You just did not know it.</h2>
+    <p>Marvell develops and delivers semiconductor solutions that move, store, process and secure the world's data. Our LiquidSecurity HSM platform powers the CloudHSM infrastructure at the world's largest hyperscalers. When your institution uses a cloud key management or HSM-as-a-service product, there is a very good chance it is running on Marvell silicon.</p>
+    <p>We are a semiconductor company, not an HSM appliance vendor. We do not sell directly to banks or enterprises, and we have no plans to. Our business is silicon, and our customers are the platforms you already depend on.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">8 of 10</div>
+        <div class="stat-label">World's largest hyperscalers running on Marvell HSM silicon</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Highest<br>performance</div>
+        <div class="stat-label">HSM platform on the market</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2027/2028</div>
+        <div class="stat-label">Target GA for next-generation HSM</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">The Cryptography Infrastructure Forum</div>
+    <h2>A working session built around your problems, not our roadmap</h2>
+    <p>A 60-minute working session with senior cryptography practitioners from tier-1 financial institutions. No slides. No pitches. An honest conversation about the hard problems in deploying and scaling cryptographic infrastructure, and where the industry needs to go.</p>
+    <p>The final agenda will be shaped by participant input ahead of the session. Depending on interest, this may run across two parts.</p>
+    <div class="agenda-items">
+      <div class="agenda-item">
+        <div class="agenda-num">01</div>
+        <div class="agenda-body">
+          <div class="agenda-title">Key migration across environments</div>
+          <div class="agenda-desc">What does safe, auditable key migration look like between on-premises HSMs and cloud key management systems? What are the real blockers, technical, regulatory, or operational, and what standards or tooling would remove them?</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">02</div>
+        <div class="agenda-body">
+          <div class="agenda-title">API and language ecosystem gaps</div>
+          <div class="agenda-desc">PKCS#11 is aging. KMIP has adoption gaps. What programming languages, API frameworks, and SDK patterns would meaningfully accelerate HSM integration for development teams inside financial institutions?</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">03</div>
+        <div class="agenda-body">
+          <div class="agenda-title">Post-quantum: where are you in the journey?</div>
+          <div class="agenda-desc">Every institution is at a different point. We are not here to add pressure. We want to understand where you are, what is working, and what would make the path forward more practical for teams managing hybrid cryptographic estates.</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">04</div>
+        <div class="agenda-body">
+          <div class="agenda-title">Payment cryptography in the cloud</div>
+          <div class="agenda-desc">The technology is moving in this direction. But what would actually need to be true operationally, from a trust, compliance, and workflow standpoint, for your institution to be comfortable with it? That is exactly the kind of input we are looking for.</div>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">05</div>
+        <div class="agenda-body">
+          <div class="agenda-title">Defining the next-generation HSM standard</div>
+          <div class="agenda-desc">If the financial services industry had a seat at the table when the next generation of cryptographic infrastructure was being designed, what would you specify? This session is that seat.</div>
+        </div>
+      </div>
+    </div>
+    <div class="agenda-note">Draft agenda. Topics and format will be refined based on participant input before the session.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Why Marvell is convening this</div>
+    <h2>We sit at the center of this infrastructure. That is exactly why we are not selling anything.</h2>
+    <p>Marvell silicon is already inside the cryptographic infrastructure your institution relies on. We power the HSM platforms at the world's largest hyperscalers, we are the silicon behind the OEMs you already use, and we are actively involved in the open standards bodies shaping what comes next.</p>
+    <p>That position gives us something rare: a view across the entire ecosystem, not just one vendor's roadmap or one platform's priorities. We see the gaps, the friction points, and the standards debates playing out in real time.</p>
+    <p>But it also means we have no product to sell you, no quota to hit, and no interest in displacing your current vendors. What we do have is a genuine need: the next generation of cryptographic infrastructure will only succeed if the people who operate it today have a say in how it is designed. That is why we are convening this forum.</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-title">We are already in your stack</div>
+        <div class="card-desc">Not as a vendor you manage, but as the silicon underneath the platforms you depend on.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">We are working toward open infrastructure</div>
+        <div class="card-desc">We are collaborating with the world's largest hyperscalers to make HSM adoption simpler and part of an industry-wide shift toward open, interoperable infrastructure standards.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Post-quantum is a journey, not a deadline</div>
+        <div class="card-desc">We are not here to add pressure. We want to understand where you are, what is working, and what would make the path forward more practical.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Payment cryptography in the cloud is an open question</div>
+        <div class="card-desc">The infrastructure is being built today. Your input on what trust, compliance, and operational requirements look like matters now, not later.</div>
+      </div>
+    </div>
+    <div class="not-box">
+      <h3>What this conversation is, and is not</h3>
+      <ul class="not-list">
+        <li><span class="x">&#10005;</span> This is not a sales pitch. Marvell has nothing to sell you directly.</li>
+        <li><span class="x">&#10005;</span> This is not a request to change vendors or evaluate new products.</li>
+        <li><span class="x">&#10005;</span> This is not a marketing event dressed up as a roundtable.</li>
+        <li><span class="ch">&#10003;</span> This is a working session with peers from institutions facing the same infrastructure challenges.</li>
+        <li><span class="ch">&#10003;</span> Your input will directly influence how open standards, hyperscaler roadmaps, and silicon design evolve.</li>
+        <li><span class="ch">&#10003;</span> Marvell's role is convener and context-provider, not presenter, not seller.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Who we are inviting</div>
+    <h2>Practitioners, not executives</h2>
+    <p>We are not looking for CISOs to give keynotes. We want the people who live with this infrastructure, who know where the real friction is and have opinions about what better looks like.</p>
+    <p>We are inviting up to two practitioners per institution to ensure the conversation stays grounded, peer-level, and substantive.</p>
+    <div class="attend-pills">
+      <div class="pill">Cryptography architects</div>
+      <div class="pill">Key management leads</div>
+      <div class="pill">HSM platform engineers</div>
+      <div class="pill">Payment security architects</div>
+      <div class="pill">Cloud security leads</div>
+      <div class="pill">PKI infrastructure owners</div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-box">
+      <h2>Join the interest list</h2>
+      <p>Seats are limited to ensure the conversation stays practitioner-level and substantive. If this sounds relevant to your work, we would love a quick 30-minute intro call to share more context, understand your environment, and make sure the agenda reflects what actually matters to practitioners like you.</p>
+      <div class="cta-qs">
+        <div class="cta-q">
+          <div class="cta-q-num">1</div>
+          <div class="cta-q-text">How is your institution currently managing cryptographic keys across on-premises and cloud environments, and where is that working well or breaking down?</div>
+        </div>
+        <div class="cta-q">
+          <div class="cta-q-num">2</div>
+          <div class="cta-q-text">Is there a specific topic in the draft agenda you would want to make sure we cover, or something important we have left out?</div>
+        </div>
+      </div>
+      <a class="cta-button" href="mailto:eworthalter@marvell.com?subject=Cryptography%20Infrastructure%20Forum%20%E2%80%94%20Interest&body=Hi%20Eyal%2C%0A%0AI%20am%20interested%20in%20joining%20the%20Marvell%20Cryptography%20Infrastructure%20Forum.%0A%0A1.%20How%20we%20manage%20cryptographic%20keys%20across%20on-premises%20and%20cloud%3A%0A%0A%0A2.%20Topics%20I%20would%20like%20to%20see%20covered%20(or%20gaps%20in%20the%20draft%20agenda)%3A%0A%0A%0AName%3A%0ATitle%3A%0AInstitution%3A">
+        Join the interest list &#8594;
+      </a>
+      <div class="cta-fine">No commitment required. We will follow up within a few days to schedule a 30-minute intro call.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">Marvell Technology · Security Division</div>
+    <div class="footer-note">Confidential · Not for general distribution</div>
+  </div>
+
+</div>
+</body>
+</html>
